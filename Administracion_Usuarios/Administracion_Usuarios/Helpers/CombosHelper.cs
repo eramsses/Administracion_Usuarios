@@ -22,8 +22,22 @@ namespace Administracion_Usuarios.Helpers
             })
                 .OrderBy(c => c.Text)
                 .ToListAsync();
-            modulosCategorias.Insert(0, new SelectListItem { Text = "Seleccione una categoria", Value = "0" });
+            modulosCategorias.Insert(0, new SelectListItem { Text = "Seleccione una categoría", Value = "0" });
             return modulosCategorias;
+        }
+
+        public async Task<IEnumerable<SelectListItem>> GetComboModulosAsync()
+        {
+            List<SelectListItem> modulos = await _context.Modulos.Select(m => new SelectListItem
+            {
+                Text = m.Nombre,
+                Value = m.Id.ToString()
+            })
+                .OrderBy(m => m.Text)
+                .ToListAsync();
+            modulos.Insert(0, new SelectListItem { Text = "Seleccione un módulo", Value = "0" });
+            return modulos;
+
         }
     }
 }

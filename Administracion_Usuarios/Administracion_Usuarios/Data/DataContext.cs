@@ -10,6 +10,8 @@ namespace Administracion_Usuarios.Data
         }
 
         //Registrar las entidades (Tablas DB)
+        public DbSet<ModuloCategoria> ModuloCategoria { get; set; }
+
         public DbSet<Modulo> Modulos { get; set; }
 
         public DbSet<Operacion> Operaciones { get; set; }
@@ -22,6 +24,8 @@ namespace Administracion_Usuarios.Data
         {
             base.OnModelCreating(modelBuilder);
             //Indica que el nombre es único para la tabla Country
+            modelBuilder.Entity<ModuloCategoria>().HasIndex(m => m.Nombre).IsUnique();
+
             modelBuilder.Entity<Modulo>().HasIndex(m => m.Nombre).IsUnique();
 
             modelBuilder.Entity<Operacion>().HasIndex(o => o.Nombre).IsUnique();
@@ -33,6 +37,6 @@ namespace Administracion_Usuarios.Data
             
         }
 
-        public DbSet<Administracion_Usuarios.Data.Entities.ModuloCategoria> ModuloCategoria { get; set; }
+        
     }
 }
