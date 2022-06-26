@@ -1,9 +1,17 @@
+using Administracion_Usuarios.Data;
 using AspNetCoreHero.ToastNotification;
+using Microsoft.EntityFrameworkCore;
 
 var builder = WebApplication.CreateBuilder(args);
 
 // Add services to the container.
 builder.Services.AddControllersWithViews();
+
+//Inyección de la dependencia de conexión de la Base de datos
+builder.Services.AddDbContext<DataContext>(options =>
+{
+    options.UseSqlServer(builder.Configuration.GetConnectionString("DefaultConnection"));
+});
 
 //Configuración para las notificaciones
 builder.Services.AddNotyf(config => {
