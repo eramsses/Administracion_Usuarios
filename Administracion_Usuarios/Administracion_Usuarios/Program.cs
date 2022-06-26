@@ -10,7 +10,7 @@ builder.Services.AddControllersWithViews();
 //Inyección de la dependencia de conexión de la Base de datos
 builder.Services.AddDbContext<DataContext>(options =>
 {
-    options.UseSqlServer(builder.Configuration.GetConnectionString("DefaultConnection"));
+    options.UseSqlServer(builder.Configuration.GetConnectionString("PcConnection"));
 });
 
 //Configuración para las notificaciones
