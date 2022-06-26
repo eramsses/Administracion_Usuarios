@@ -16,8 +16,7 @@ namespace Administracion_Usuarios.Controllers
 
         public IActionResult Index()
         {
-            _notyf.Error("Mensaje de error", 3);
-            _notyf.Success("Notificación satisfactoria");
+            
             return View();
         }
 

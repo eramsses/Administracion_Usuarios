@@ -1,4 +1,5 @@
 using Administracion_Usuarios.Data;
+using Administracion_Usuarios.Helpers;
 using AspNetCoreHero.ToastNotification;
 using Microsoft.EntityFrameworkCore;
 
@@ -13,6 +14,8 @@ builder.Services.AddDbContext<DataContext>(options =>
     options.UseSqlServer(builder.Configuration.GetConnectionString("PcConnection"));
 });
 
+
+
 //Configuración para las notificaciones
 builder.Services.AddNotyf(config => {
     config.DurationInSeconds = 9999999;
@@ -21,6 +24,9 @@ builder.Services.AddNotyf(config => {
     config.Position = NotyfPosition.TopRight;
 });
 
+
+//Inyección del Combos Helper
+builder.Services.AddScoped<ICombosHelper, CombosHelper>();
 
 var app = builder.Build();
 

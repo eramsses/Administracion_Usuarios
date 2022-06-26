@@ -30,12 +30,12 @@ namespace Administracion_Usuarios.Migrations
 
                     SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("Id"), 1L, 1);
 
-                    b.Property<int?>("CategoriaId")
-                        .HasColumnType("int");
-
                     b.Property<string>("Descripcion")
                         .IsRequired()
                         .HasColumnType("nvarchar(max)");
+
+                    b.Property<int?>("ModuloCategoriaId")
+                        .HasColumnType("int");
 
                     b.Property<string>("Nombre")
                         .IsRequired()
@@ -43,7 +43,7 @@ namespace Administracion_Usuarios.Migrations
 
                     b.HasKey("Id");
 
-                    b.HasIndex("CategoriaId");
+                    b.HasIndex("ModuloCategoriaId");
 
                     b.HasIndex("Nombre")
                         .IsUnique();
@@ -150,11 +150,11 @@ namespace Administracion_Usuarios.Migrations
 
             modelBuilder.Entity("Administracion_Usuarios.Data.Entities.Modulo", b =>
                 {
-                    b.HasOne("Administracion_Usuarios.Data.Entities.ModuloCategoria", "Categoria")
+                    b.HasOne("Administracion_Usuarios.Data.Entities.ModuloCategoria", "ModuloCategoria")
                         .WithMany("Modulos")
-                        .HasForeignKey("CategoriaId");
+                        .HasForeignKey("ModuloCategoriaId");
 
-                    b.Navigation("Categoria");
+                    b.Navigation("ModuloCategoria");
                 });
 
             modelBuilder.Entity("Administracion_Usuarios.Data.Entities.Operacion", b =>

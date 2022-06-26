@@ -1,4 +1,5 @@
-﻿using System.ComponentModel.DataAnnotations;
+﻿using Microsoft.AspNetCore.Mvc.Rendering;
+using System.ComponentModel.DataAnnotations;
 using System.Text.Json.Serialization;
 
 namespace Administracion_Usuarios.Data.Entities
@@ -17,7 +18,7 @@ namespace Administracion_Usuarios.Data.Entities
 
         //Pertenece a una categoría
         [JsonIgnore]
-        public ModuloCategoria Categoria { get; set; }
+        public ModuloCategoria ModuloCategoria { get; set; }
 
         //Tiene muchas operaciones
         public ICollection<Operacion> Operaciones { get; set; }

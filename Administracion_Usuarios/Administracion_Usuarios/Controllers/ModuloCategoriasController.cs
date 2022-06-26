@@ -21,7 +21,9 @@ namespace Administracion_Usuarios.Controllers
 
         public async Task<IActionResult> Index()
         {
-              return View(await _context.ModuloCategoria.ToListAsync());
+              return View(await _context.ModuloCategoria
+                  .Include(mc => mc.Modulos)
+                  .ToListAsync());
         }
 
         public async Task<IActionResult> Details(int? id)

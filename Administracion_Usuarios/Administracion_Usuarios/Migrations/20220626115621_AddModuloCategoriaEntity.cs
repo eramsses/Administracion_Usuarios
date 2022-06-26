@@ -9,7 +9,7 @@ namespace Administracion_Usuarios.Migrations
         protected override void Up(MigrationBuilder migrationBuilder)
         {
             migrationBuilder.AddColumn<int>(
-                name: "CategoriaId",
+                name: "ModuloCategoriaId",
                 table: "Modulos",
                 type: "int",
                 nullable: true);
@@ -29,14 +29,14 @@ namespace Administracion_Usuarios.Migrations
                 });
 
             migrationBuilder.CreateIndex(
-                name: "IX_Modulos_CategoriaId",
+                name: "IX_Modulos_ModuloCategoriaId",
                 table: "Modulos",
-                column: "CategoriaId");
+                column: "ModuloCategoriaId");
 
             migrationBuilder.AddForeignKey(
-                name: "FK_Modulos_ModuloCategoria_CategoriaId",
+                name: "FK_Modulos_ModuloCategoria_ModuloCategoriaId",
                 table: "Modulos",
-                column: "CategoriaId",
+                column: "ModuloCategoriaId",
                 principalTable: "ModuloCategoria",
                 principalColumn: "Id");
         }
@@ -44,18 +44,18 @@ namespace Administracion_Usuarios.Migrations
         protected override void Down(MigrationBuilder migrationBuilder)
         {
             migrationBuilder.DropForeignKey(
-                name: "FK_Modulos_ModuloCategoria_CategoriaId",
+                name: "FK_Modulos_ModuloCategoria_ModuloCategoriaId",
                 table: "Modulos");
 
             migrationBuilder.DropTable(
                 name: "ModuloCategoria");
 
             migrationBuilder.DropIndex(
-                name: "IX_Modulos_CategoriaId",
+                name: "IX_Modulos_ModuloCategoriaId",
                 table: "Modulos");
 
             migrationBuilder.DropColumn(
-                name: "CategoriaId",
+                name: "ModuloCategoriaId",
                 table: "Modulos");
         }
     }
