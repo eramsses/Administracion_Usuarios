@@ -18,12 +18,13 @@ namespace Administracion_Usuarios.Data.Entities
 
         //Pertenece a una categoría
         [JsonIgnore]
+        [Display(Name = "Categoría")]
         public ModuloCategoria ModuloCategoria { get; set; }
 
         //Tiene muchas operaciones
         public ICollection<Operacion> Operaciones { get; set; }
 
-        [Display(Name = "Operaciones en Módulo")]
+        [Display(Name = "Operaciones")]
         public int CantidadOperaciones => Operaciones == null ? 0 : Operaciones.Count;
     }
 }

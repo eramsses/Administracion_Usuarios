@@ -1,0 +1,32 @@
+﻿@model Administracion_Usuarios.Models.EditModuloViewModel
+
+@{
+    ViewData["Title"] = "Modificar Módulo";
+}
+
+<h1>Modificar Módulo</h1>
+
+<hr />
+<div class="row">
+    <div class="col-md-4">
+        <form asp-action="Modificar">
+            <input type="hidden" asp-for="ModuloCategorias" />
+            <input type="hidden" asp-for="Id" />
+            <div asp-validation-summary="ModelOnly" class="text-danger"></div>
+            <partial name="_Modulo" />
+            <div class="form-group">
+                <input type="submit" value="Modificar" class="btn btn-primary" />
+            </div>
+        </form>
+    </div>
+</div>
+
+<div>
+    <a asp-action="Index">Back to List</a>
+</div>
+
+@section Scripts {
+    @{
+        await Html.RenderPartialAsync("_ValidationScriptsPartial");
+    }
+    }

@@ -1,29 +1,27 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Threading.Tasks;
-using Microsoft.AspNetCore.Mvc;
-using Microsoft.AspNetCore.Mvc.Rendering;
-using Microsoft.EntityFrameworkCore;
-using Administracion_Usuarios.Data;
+﻿using Administracion_Usuarios.Data;
 using Administracion_Usuarios.Data.Entities;
+using AspNetCoreHero.ToastNotification.Abstractions;
+using Microsoft.AspNetCore.Mvc;
+using Microsoft.EntityFrameworkCore;
 
 namespace Administracion_Usuarios.Controllers
 {
     public class ModuloCategoriasController : Controller
     {
         private readonly DataContext _context;
+        private readonly INotyfService _notyf;
 
-        public ModuloCategoriasController(DataContext context)
+        public ModuloCategoriasController(DataContext context, INotyfService notyf)
         {
             _context = context;
+            _notyf = notyf;
         }
 
         public async Task<IActionResult> Index()
         {
-              return View(await _context.ModuloCategoria
-                  .Include(mc => mc.Modulos)
-                  .ToListAsync());
+            return View(await _context.ModuloCategoria
+                .Include(mc => mc.Modulos)
+                .ToListAsync());
         }
 
         public async Task<IActionResult> Details(int? id)
@@ -108,44 +106,45 @@ namespace Administracion_Usuarios.Controllers
             return View(moduloCategoria);
         }
 
-        public async Task<IActionResult> Delete(int? id)
-        {
-            if (id == null || _context.ModuloCategoria == null)
-            {
-                return NotFound();
-            }
-
-            var moduloCategoria = await _context.ModuloCategoria
-                .FirstOrDefaultAsync(m => m.Id == id);
-            if (moduloCategoria == null)
-            {
-                return NotFound();
-            }
-
-            return View(moduloCategoria);
-        }
-
-        [HttpPost, ActionName("Delete")]
+        [HttpPost]
         [ValidateAntiForgeryToken]
-        public async Task<IActionResult> DeleteConfirmed(int id)
+        public async Task<IActionResult> Eliminar(int id)
         {
-            if (_context.ModuloCategoria == null)
+            ModuloCategoria categoria = await _context.ModuloCategoria
+                .Include(m => m.Modulos)
+                .FirstOrDefaultAsync(m => m.Id == id);
+
+            try
             {
-                return Problem("Entity set 'DataContext.ModuloCategoria'  is null.");
+                if (categoria.CantidadModulos > 0)
+                {
+                    _notyf.Error($"La categoría <b>{categoria.Nombre}</b> no puede ser eliminado porque tiene módulos asociados.");
+                    return RedirectToAction(nameof(Index));
+                }
+
+                if (categoria != null)
+                {
+                    _context.ModuloCategoria.Remove(categoria);
+                }
+
+                await _context.SaveChangesAsync();
+
+                _notyf.Success($"La categoría <b>{categoria.Nombre}</b> fue eliminada exitosamente.", 3);
+                return RedirectToAction(nameof(Index));
             }
-            var moduloCategoria = await _context.ModuloCategoria.FindAsync(id);
-            if (moduloCategoria != null)
+            catch (Exception ex)
             {
-                _context.ModuloCategoria.Remove(moduloCategoria);
+                _notyf.Error($"Ocurrió un error al intentar eliminar la categoría <b>{categoria.Nombre}</b>: {ex.InnerException.Message}.", 3);
+                return RedirectToAction(nameof(Index));
             }
-            
-            await _context.SaveChangesAsync();
-            return RedirectToAction(nameof(Index));
+
         }
 
         private bool ModuloCategoriaExists(int id)
         {
-          return _context.ModuloCategoria.Any(e => e.Id == id);
+            return _context.ModuloCategoria.Any(e => e.Id == id);
         }
+
+        
     }
 }
