@@ -19,7 +19,7 @@ namespace Administracion_Usuarios.Data.Entities
         [JsonIgnore]
         public ModuloCategoria Categoria { get; set; }
 
-        //Relación con las operaciones
+        //Tiene muchas operaciones
         public ICollection<Operacion> Operaciones { get; set; }
 
         [Display(Name = "Operaciones en Módulo")]

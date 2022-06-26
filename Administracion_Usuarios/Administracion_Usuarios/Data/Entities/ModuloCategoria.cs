@@ -14,7 +14,7 @@ namespace Administracion_Usuarios.Data.Entities
         [Required(ErrorMessage = "El campo {0} es obligatorio.")]
         public string Descripcion { get; set; }
 
-        //Relación con las módulos
+        //Tiene muchos módulos
         public ICollection<Modulo> Modulos { get; set; }
 
         [Display(Name = "Módulos")]

@@ -32,5 +32,7 @@ namespace Administracion_Usuarios.Data
             //modelBuilder.Entity<Operacion>().HasIndex("Nombre", "ModuloId").IsUnique();
             
         }
+
+        public DbSet<Administracion_Usuarios.Data.Entities.ModuloCategoria> ModuloCategoria { get; set; }
     }
 }
