@@ -1,9 +1,8 @@
 ﻿using System.ComponentModel.DataAnnotations;
-using System.Text.Json.Serialization;
 
 namespace Administracion_Usuarios.Data.Entities
 {
-    public class Operacion
+    public class ModuloCategoria
     {
         public int Id { get; set; }
 
@@ -15,9 +14,10 @@ namespace Administracion_Usuarios.Data.Entities
         [Required(ErrorMessage = "El campo {0} es obligatorio.")]
         public string Descripcion { get; set; }
 
-        //Pertenece a un Módulo
-        [JsonIgnore]
-        public Modulo Modulo { get; set; }
+        //Relación con las módulos
+        public ICollection<Modulo> Modulos { get; set; }
 
+        [Display(Name = "Módulos")]
+        public int CantidadModulos => Modulos == null ? 0 : Modulos.Count;
     }
 }

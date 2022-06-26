@@ -1,4 +1,5 @@
 ﻿using System.ComponentModel.DataAnnotations;
+using System.Text.Json.Serialization;
 
 namespace Administracion_Usuarios.Data.Entities
 {
@@ -10,8 +11,13 @@ namespace Administracion_Usuarios.Data.Entities
         public string Nombre { get; set; }
 
         [DataType(DataType.MultilineText)]
+        [Display(Name = "Descripción")]
         [Required(ErrorMessage = "El campo {0} es obligatorio.")]
         public string Descripcion { get; set; }
+
+        //Pertenece a una categoría
+        [JsonIgnore]
+        public ModuloCategoria Categoria { get; set; }
 
         //Relación con las operaciones
         public ICollection<Operacion> Operaciones { get; set; }

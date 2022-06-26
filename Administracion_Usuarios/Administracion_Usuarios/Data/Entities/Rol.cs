@@ -11,6 +11,7 @@ namespace Administracion_Usuarios.Data.Entities
         [Required(ErrorMessage = "El campo {0} es obligatorio.")]
         public string Nombre { get; set; }
 
+        [Display(Name = "Descripción")]
         [DataType(DataType.MultilineText)]
         public string Descripcion { get; set; }
 
