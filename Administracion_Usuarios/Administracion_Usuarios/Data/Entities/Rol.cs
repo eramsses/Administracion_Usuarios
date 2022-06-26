@@ -16,6 +16,7 @@ namespace Administracion_Usuarios.Data.Entities
         public string Descripcion { get; set; }
 
         [Display(Name = "Estado")]
+        [Required(ErrorMessage = "El campo {0} es obligatorio.")]
         public EstadoEnum EstadoEnum { get; set; }
         
     }

@@ -6,7 +6,7 @@ namespace Administracion_Usuarios.Helpers
     {
         Task<IEnumerable<SelectListItem>> GetComboCategoriaModulosAsync();
 
-        Task<IEnumerable<SelectListItem>> GetComboModulosAsync();
+        Task<IEnumerable<SelectListItem>> GetComboModulosAsync(int moduloCategoriaId);
 
     }
 }

@@ -31,7 +31,24 @@ builder.Services.AddScoped<ICombosHelper, CombosHelper>();
 //Agregar para que actualice los cambios al momento del desarrollo
 builder.Services.AddRazorPages().AddRazorRuntimeCompilation();
 
+//Inyección del feedDb 
+builder.Services.AddTransient<SeedDb>();
+
 var app = builder.Build();
+
+//Llamar al feedDb
+SeedData();
+
+void SeedData()
+{
+    IServiceScopeFactory? scopeFactory = app.Services.GetService<IServiceScopeFactory>();
+
+    using (IServiceScope? scope = scopeFactory.CreateScope())
+    {
+        SeedDb? service = scope.ServiceProvider.GetService<SeedDb?>();
+        service.SeedAsync().Wait();
+    }
+}
 
 // Configure the HTTP request pipeline.
 if (!app.Environment.IsDevelopment())

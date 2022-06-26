@@ -26,18 +26,27 @@ namespace Administracion_Usuarios.Helpers
             return modulosCategorias;
         }
 
-        public async Task<IEnumerable<SelectListItem>> GetComboModulosAsync()
+        public async Task<IEnumerable<SelectListItem>> GetComboModulosAsync(int moduloCategoriaId)
         {
-            List<SelectListItem> modulos = await _context.Modulos.Select(m => new SelectListItem
+            List<SelectListItem> modulos = await _context.Modulos
+                .Where(m => m.ModuloCategoria.Id == moduloCategoriaId)
+                .Select(m => new SelectListItem
             {
                 Text = m.Nombre,
                 Value = m.Id.ToString()
             })
                 .OrderBy(m => m.Text)
                 .ToListAsync();
-            modulos.Insert(0, new SelectListItem { Text = "Seleccione un módulo", Value = "0" });
+
+            if(moduloCategoriaId == 0)
+                modulos.Insert(0, new SelectListItem { Text = "Primero seleccione una categoría", Value = "0" });
+            else
+                modulos.Insert(0, new SelectListItem { Text = "Seleccione un módulo", Value = "0" });
+
             return modulos;
 
         }
+
+       
     }
 }

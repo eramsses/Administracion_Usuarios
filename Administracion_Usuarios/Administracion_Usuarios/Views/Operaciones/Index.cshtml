@@ -13,14 +13,18 @@
     <thead>
         <tr>
             <th>
+                @Html.DisplayNameFor(model => model.Modulo)
+            </th>
+            <th>
                 @Html.DisplayNameFor(model => model.Nombre)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.NombreClave)
             </th>
             <th>
                 @Html.DisplayNameFor(model => model.Descripcion)
             </th>
-            <th>
-                @Html.DisplayNameFor(model => model.Modulo)
-            </th>
+            
             <th></th>
         </tr>
     </thead>
@@ -28,7 +32,13 @@
 @foreach (var item in Model) {
         <tr>
             <td>
+                @Html.DisplayFor(modelItem => item.Modulo.Nombre)
+            </td>
+            <td>
                 @Html.DisplayFor(modelItem => item.Nombre)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.NombreClave)
             </td>
             <td>
                 @Html.DisplayFor(modelItem => item.Descripcion)
@@ -37,9 +47,9 @@
                 @Html.DisplayFor(modelItem => item.Modulo.Nombre)
             </td>
             <td>
-                <a asp-action="Edit" asp-route-id="@item.Id">Edit</a> |
-                <a asp-action="Details" asp-route-id="@item.Id">Details</a> |
-                <a href="javascript:eliminar('@item.Id', '@item.Nombre')">Eliminar</a>
+                <a asp-action="Modificar" asp-route-id="@item.Id">Edit</a> |
+                
+                <a href="javascript:eliminar('@item.Id', '@item.Nombre', '@item.NombreClave')">Eliminar</a>
             </td>
         </tr>
 }
@@ -51,13 +61,14 @@
 
         <div class="modal-content">
             <div class="modal-header bg-warning text-white">
-                <h5 class="modal-title" id="camb_estado">Eliminar Módulo</h5>
+                <h5 class="modal-title" id="camb_estado">Eliminar Operación</h5>
                 <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
             </div>
             <form asp-action="Eliminar" method="post" enctype="multipart/form-data">
                 <div class="modal-body">
                     <input type="hidden" id="id_operacion" name="Id">
-                    <p>Confirme que desea eliminar la operación <b>"<span id="p_nombre"></span>"</b></p>
+                    <p>Confirme que desea eliminar la operación <b>"<span id="p_nombre"></span>"</b>
+                        con el nombre clave <b>"<span id="p_nombre_clave"></span>"</b></p>
                 </div>
                 <div class="modal-footer">
                     <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Cancelar</button>
@@ -74,9 +85,10 @@
 
         <script>
 
-            function eliminar(id, nombre) {
+            function eliminar(id, nombre, nombreClave) {
                 $('#id_operacion').val(id);
                 $('#p_nombre').html(nombre);
+                $('#p_nombre_clave').html(nombreClave);
                 var mod_eliminar = new bootstrap.Modal(document.getElementById('mod_eliminar'), {
                     keyboard: false
                 });

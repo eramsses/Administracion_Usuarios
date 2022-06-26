@@ -21,7 +21,6 @@ namespace Administracion_Usuarios.Controllers
             _notyf = notyf;
         }
 
-
         public async Task<IActionResult> Index()
         {
             return View(await _context.Modulos

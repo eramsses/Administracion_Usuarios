@@ -1,0 +1,70 @@
+﻿@model Administracion_Usuarios.Models.AgregarOperacionViewModel
+
+@{
+    ViewData["Title"] = "Modificar Operación";
+}
+
+<h1>Agregar Operación</h1>
+
+<hr />
+<div class="row">
+    <div class="col-md-4">
+        <form asp-action="Modificar">
+            <input type="hidden" asp-for="Id" />
+            <input type="hidden" asp-for="ModuloCategorias" />
+            <input type="hidden" asp-for="Modulos" />
+            
+            <div asp-validation-summary="ModelOnly" class="text-danger"></div>
+            <partial name="_Operacion" />
+            <div class="form-group">
+                <input type="submit" value="Modificar" class="btn btn-primary" />
+            </div>
+        </form>
+    </div>
+</div>
+
+<div>
+    <a asp-action="Index">Back to List</a>
+</div>
+
+@section Scripts {
+    @{
+        await Html.RenderPartialAsync("_ValidationScriptsPartial");
+    }
+
+    <script type="text/javascript">
+        $(document).ready(function() {
+            $("#ModuloCategoriaId").change(function() {
+                var id = $("#ModuloCategoriaId").val();
+                console.log(id);
+                $("#ModuloId").empty();
+                $("#ModuloId").append('<option value="0">Selecciona un módulo</option>');
+                
+                if (id !== "0") {
+                    $.ajax({
+                        type: 'POST',
+                        url: '@Url.Action("GetModulos")',
+                        dataType: 'json',
+                        data: { ModuloCategoriaId: id },
+                        success: function(modulos) {
+                            
+                            $.each(modulos, function(i, modulo) {
+                                $("#ModuloId").append('<option value="'
+                                    + modulo.id + '">'
+                                    + modulo.nombre + '</option>');
+                            });
+                        },
+                        error: function(ex) {
+                            alert('Failed to retrieve modulos.' + ex);
+                        }
+                    });
+                }
+                return false;
+            })
+
+
+        });
+    </script>
+
+    }
+

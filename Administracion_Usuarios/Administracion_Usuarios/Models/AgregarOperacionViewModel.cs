@@ -11,6 +11,11 @@ namespace Administracion_Usuarios.Models
         [Required(ErrorMessage = "El campo {0} es obligatorio.")]
         public string Nombre { get; set; }
 
+        [Display(Name = "Nombre Clave Único")]
+        [MaxLength(50, ErrorMessage = "El campo {0} debe tener máximo {1} caractéres")]
+        [Required(ErrorMessage = "El campo {0} es obligatorio.")]
+        public string NombreClave { get; set; }
+
         [DataType(DataType.MultilineText)]
         [Display(Name = "Descripción")]
         [Required(ErrorMessage = "El campo {0} es obligatorio.")]

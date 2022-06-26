@@ -28,7 +28,7 @@ namespace Administracion_Usuarios.Data
 
             modelBuilder.Entity<Modulo>().HasIndex(m => m.Nombre).IsUnique();
 
-            modelBuilder.Entity<Operacion>().HasIndex(o => o.Nombre).IsUnique();
+            modelBuilder.Entity<Operacion>().HasIndex(o => o.NombreClave).IsUnique();
             
 
 
