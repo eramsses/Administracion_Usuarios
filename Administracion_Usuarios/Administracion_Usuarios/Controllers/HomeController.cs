@@ -1,4 +1,5 @@
 ﻿using Administracion_Usuarios.Models;
+using AspNetCoreHero.ToastNotification.Abstractions;
 using Microsoft.AspNetCore.Mvc;
 using System.Diagnostics;
 
@@ -6,15 +7,17 @@ namespace Administracion_Usuarios.Controllers
 {
     public class HomeController : Controller
     {
-        private readonly ILogger<HomeController> _logger;
+        private readonly INotyfService _notyf;
 
-        public HomeController(ILogger<HomeController> logger)
+        public HomeController(INotyfService notyf)
         {
-            _logger = logger;
+            _notyf = notyf;
         }
 
         public IActionResult Index()
         {
+            _notyf.Error("Mensaje de error", 3);
+            _notyf.Success("Notificación satisfactoria");
             return View();
         }
 

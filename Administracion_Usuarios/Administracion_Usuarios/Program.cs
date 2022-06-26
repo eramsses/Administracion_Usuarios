@@ -1,7 +1,18 @@
+using AspNetCoreHero.ToastNotification;
+
 var builder = WebApplication.CreateBuilder(args);
 
 // Add services to the container.
 builder.Services.AddControllersWithViews();
+
+//Configuración para las notificaciones
+builder.Services.AddNotyf(config => {
+    config.DurationInSeconds = 9999999;
+    config.IsDismissable = true;
+    config.HasRippleEffect = false;
+    config.Position = NotyfPosition.TopRight;
+});
+
 
 var app = builder.Build();
 
