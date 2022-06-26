@@ -28,6 +28,9 @@ builder.Services.AddNotyf(config => {
 //Inyección del Combos Helper
 builder.Services.AddScoped<ICombosHelper, CombosHelper>();
 
+//Agregar para que actualice los cambios al momento del desarrollo
+builder.Services.AddRazorPages().AddRazorRuntimeCompilation();
+
 var app = builder.Build();
 
 // Configure the HTTP request pipeline.
