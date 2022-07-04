@@ -60,7 +60,7 @@ namespace Administracion_Usuarios.Controllers
                         Modulo = await _context.Modulos.FindAsync(model.ModuloId),
                         Descripcion = model.Descripcion,
                         Nombre = model.Nombre,
-                        NombreClave = model.NombreClave
+                        NombreClave = model.NombreClave.Trim().Replace(' ', '_')
                     };
 
                     _context.Add(operacion);
@@ -150,7 +150,7 @@ namespace Administracion_Usuarios.Controllers
                         Modulo = modulo,
                         Descripcion = model.Descripcion,
                         Nombre = model.Nombre,
-                        NombreClave = model.NombreClave
+                        NombreClave = model.NombreClave.Trim().Replace(' ', '_')
                     };
 
                     _context.Update(operacion);

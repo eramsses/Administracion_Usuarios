@@ -14,7 +14,12 @@ builder.Services.AddDbContext<DataContext>(options =>
     options.UseSqlServer(builder.Configuration.GetConnectionString("PcConnectionSa"));
 });
 
-
+//Redirección de páginas de error
+builder.Services.ConfigureApplicationCookie(options =>
+{
+    options.LoginPath = "/Account/NotAuthorized";
+    options.AccessDeniedPath = "/Account/NotAuthorized";
+});
 
 //Configuración para las notificaciones
 builder.Services.AddNotyf(config => {
