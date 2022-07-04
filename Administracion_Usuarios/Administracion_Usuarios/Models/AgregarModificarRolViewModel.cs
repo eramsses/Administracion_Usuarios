@@ -1,9 +1,10 @@
-﻿using Administracion_Usuarios.Enums;
+﻿using Administracion_Usuarios.Data.Entities;
+using Administracion_Usuarios.Enums;
 using System.ComponentModel.DataAnnotations;
 
-namespace Administracion_Usuarios.Data.Entities
+namespace Administracion_Usuarios.Models
 {
-    public class Rol
+    public class AgregarModificarRolViewModel
     {
         public int Id { get; set; }
 
@@ -19,11 +20,12 @@ namespace Administracion_Usuarios.Data.Entities
         [Required(ErrorMessage = "El campo {0} es obligatorio.")]
         public EstadoEnum EstadoEnum { get; set; }
 
+        public IEnumerable<Operacion> Operaciones { get; set; }
+
         //Tiene muchas 
         public ICollection<RolOperacion> RolesOperaciones { get; set; }
 
         [Display(Name = "Operaciones")]
         public int CantidadRolesOperaciones => RolesOperaciones == null ? 0 : RolesOperaciones.Count;
-
     }
 }

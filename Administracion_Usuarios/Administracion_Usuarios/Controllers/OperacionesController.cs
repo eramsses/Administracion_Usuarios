@@ -30,7 +30,7 @@ namespace Administracion_Usuarios.Controllers
 
         public async Task<IActionResult> Agregar()
         {
-            AgregarOperacionViewModel model = new()
+            AgregarModificarOperacionViewModel model = new()
             {
                 ModuloCategorias = await _combosHelper.GetComboCategoriaModulosAsync(),
                 Modulos  = await _combosHelper.GetComboModulosAsync(0)
@@ -41,7 +41,7 @@ namespace Administracion_Usuarios.Controllers
 
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public async Task<IActionResult> Agregar(AgregarOperacionViewModel model)
+        public async Task<IActionResult> Agregar(AgregarModificarOperacionViewModel model)
         {
             if (ModelState.IsValid)
             {
@@ -66,7 +66,7 @@ namespace Administracion_Usuarios.Controllers
                     _context.Add(operacion);
                     await _context.SaveChangesAsync();
 
-                    _notyf.Success($"La operación <b>{nombre}</b> fue creada exitosamente.", 3);
+                    _notyf.Success($"La operación <b>{nombre}</b> fue creada exitosamente.", 6);
                     return RedirectToAction(nameof(Index));
                 }
                 catch (DbUpdateException dbUpdateException)
@@ -74,16 +74,16 @@ namespace Administracion_Usuarios.Controllers
                     string error = dbUpdateException.InnerException.Message;
                     if (error.Contains("duplicate") || error.Contains("clave duplicada"))
                     {
-                        _notyf.Error($"Ya existe una operación con el nombre clave <b>{nombreClave}</b> ", 6);
+                        _notyf.Error($"Ya existe una operación con el nombre clave <b>{nombreClave}</b> ");
                     }
                     else
                     {
-                        _notyf.Error(dbUpdateException.InnerException.Message, 6);
+                        _notyf.Error(dbUpdateException.InnerException.Message);
                     }
                 }
                 catch (Exception ex)
                 {
-                    _notyf?.Error(ex.InnerException.Message, 6);
+                    _notyf?.Error(ex.InnerException.Message);
                 }
             }
 
@@ -110,7 +110,7 @@ namespace Administracion_Usuarios.Controllers
                 return NotFound();
             }
 
-            AgregarOperacionViewModel model = new()
+            AgregarModificarOperacionViewModel model = new()
             {
                 Id = operacion.Id,
                 Nombre = operacion.Nombre,
@@ -129,7 +129,7 @@ namespace Administracion_Usuarios.Controllers
 
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public async Task<IActionResult> Modificar(int id, AgregarOperacionViewModel model)
+        public async Task<IActionResult> Modificar(int id, AgregarModificarOperacionViewModel model)
         {
             if (id != model.Id)
             {

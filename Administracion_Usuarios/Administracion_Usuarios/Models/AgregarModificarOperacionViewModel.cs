@@ -1,10 +1,9 @@
 ﻿using Microsoft.AspNetCore.Mvc.Rendering;
 using System.ComponentModel.DataAnnotations;
-using System.Text.Json.Serialization;
 
 namespace Administracion_Usuarios.Models
 {
-    public class AgregarOperacionViewModel
+    public class AgregarModificarOperacionViewModel
     {
         public int Id { get; set; }
 

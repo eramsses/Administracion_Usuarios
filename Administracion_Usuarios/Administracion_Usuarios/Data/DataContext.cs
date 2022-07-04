@@ -29,11 +29,14 @@ namespace Administracion_Usuarios.Data
             modelBuilder.Entity<Modulo>().HasIndex(m => m.Nombre).IsUnique();
 
             modelBuilder.Entity<Operacion>().HasIndex(o => o.NombreClave).IsUnique();
-            
 
 
-            //Indices compuestos
+
+            //Indices compuestos único
             //modelBuilder.Entity<Operacion>().HasIndex("Nombre", "ModuloId").IsUnique();
+
+            //Llave compuesta para definir la llave en tabla intermedia de relación muchos a muchos
+            modelBuilder.Entity<RolOperacion>().HasKey(ro => new { ro.RolId, ro.OperacionId });
             
         }
 

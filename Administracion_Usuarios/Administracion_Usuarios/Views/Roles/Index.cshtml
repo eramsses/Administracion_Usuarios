@@ -1,10 +1,10 @@
-﻿@model IEnumerable<Administracion_Usuarios.Data.Entities.Operacion>
+﻿@model IEnumerable<Administracion_Usuarios.Data.Entities.Rol>
 
 @{
-    ViewData["Title"] = "Operaciones";
+    ViewData["Title"] = "Roles";
 }
 
-<h1>Operaciones</h1>
+<h1>Roles</h1>
 
 <p>
     <a asp-action="Agregar">Create New</a>
@@ -13,13 +13,7 @@
     <thead>
         <tr>
             <th>
-                @Html.DisplayNameFor(model => model.Modulo)
-            </th>
-            <th>
                 @Html.DisplayNameFor(model => model.Nombre)
-            </th>
-            <th>
-                @Html.DisplayNameFor(model => model.NombreClave)
             </th>
             <th>
                 @Html.DisplayNameFor(model => model.Descripcion)
@@ -27,34 +21,35 @@
             <th>
                 @Html.DisplayNameFor(model => model.CantidadRolesOperaciones)
             </th>
+            <th>
+                @Html.DisplayNameFor(model => model.EstadoEnum)
+            </th>
             <th></th>
         </tr>
     </thead>
     <tbody>
-@foreach (var item in Model) {
-        <tr>
-            <td>
-                @Html.DisplayFor(modelItem => item.Modulo.Nombre)
-            </td>
-            <td>
-                @Html.DisplayFor(modelItem => item.Nombre)
-            </td>
-            <td>
-                @Html.DisplayFor(modelItem => item.NombreClave)
-            </td>
-            <td>
-                @Html.DisplayFor(modelItem => item.Descripcion)
-            </td>
-            <td>
-                @Html.DisplayFor(modelItem => item.CantidadRolesOperaciones)
-            </td>
-            <td>
-                <a asp-action="Modificar" asp-route-id="@item.Id">Edit</a> |
-                
-                <a href="javascript:eliminar('@item.Id', '@item.Nombre', '@item.NombreClave')">Eliminar</a>
-            </td>
-        </tr>
-}
+        @foreach (var item in Model)
+        {
+            <tr>
+                <td>
+                    @Html.DisplayFor(modelItem => item.Nombre)
+                </td>
+                <td>
+                    @Html.DisplayFor(modelItem => item.Descripcion)
+                </td>
+                <td>
+                    @Html.DisplayFor(modelItem => item.CantidadRolesOperaciones)
+                </td>
+                <td>
+                    @Html.DisplayFor(modelItem => item.EstadoEnum)
+                </td>
+                <td>
+                    <a asp-action="Modificar" asp-route-id="@item.Id">Modificar</a> |
+                    <a asp-action="Detalle" asp-route-id="@item.Id">Detalle</a> |
+                    <a href="javascript:eliminar('@item.Id', '@item.Nombre')">Eliminar</a>
+                </td>
+            </tr>
+        }
     </tbody>
 </table>
 
@@ -69,8 +64,10 @@
             <form asp-action="Eliminar" method="post" enctype="multipart/form-data">
                 <div class="modal-body">
                     <input type="hidden" id="id_operacion" name="Id">
-                    <p>Confirme que desea eliminar la operación <b>"<span id="p_nombre"></span>"</b>
-                        con el nombre clave <b>"<span id="p_nombre_clave"></span>"</b></p>
+                    <p>
+                        Confirme que desea eliminar la operación <b>"<span id="p_nombre"></span>"</b>
+                        con el nombre clave <b>"<span id="p_nombre_clave"></span>"</b>
+                    </p>
                 </div>
                 <div class="modal-footer">
                     <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Cancelar</button>
@@ -87,10 +84,9 @@
 
         <script>
 
-            function eliminar(id, nombre, nombreClave) {
+            function eliminar(id, nombre) {
                 $('#id_operacion').val(id);
                 $('#p_nombre').html(nombre);
-                $('#p_nombre_clave').html(nombreClave);
                 var mod_eliminar = new bootstrap.Modal(document.getElementById('mod_eliminar'), {
                     keyboard: false
                 });

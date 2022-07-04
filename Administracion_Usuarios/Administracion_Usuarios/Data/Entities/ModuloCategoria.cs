@@ -18,6 +18,7 @@ namespace Administracion_Usuarios.Data.Entities
         //Tiene muchos módulos
         public ICollection<Modulo> Modulos { get; set; }
 
+        //Solo lectura
         [Display(Name = "Módulos")]
         public int CantidadModulos => Modulos == null ? 0 : Modulos.Count;
     }

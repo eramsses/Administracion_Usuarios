@@ -25,5 +25,11 @@ namespace Administracion_Usuarios.Data.Entities
         [JsonIgnore]
         public Modulo Modulo { get; set; }
 
+        //Tiene muchas 
+        public ICollection<RolOperacion> RolesOperaciones { get; set; }
+
+        [Display(Name = "Roles")]
+        public int CantidadRolesOperaciones => RolesOperaciones == null ? 0 : RolesOperaciones.Count;
+
     }
 }

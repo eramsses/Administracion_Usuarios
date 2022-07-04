@@ -73,17 +73,17 @@ namespace Administracion_Usuarios.Controllers
                     string error = dbUpdateException.InnerException.Message;
                     if (error.Contains("duplicate") || error.Contains("clave duplicada"))
                     {
-                        _notyf.Error($"Ya existe módulo con el nombre {nombre} ", 6);
+                        _notyf.Error($"Ya existe módulo con el nombre {nombre} ");
                     }
                     else
                     {
                         ModelState.AddModelError(string.Empty, dbUpdateException.InnerException.Message);
-                        _notyf.Error(dbUpdateException.InnerException.Message, 6);
+                        _notyf.Error(dbUpdateException.InnerException.Message);
                     }
                 }
                 catch (Exception ex)
                 {
-                    _notyf?.Error(ex.InnerException.Message, 6);
+                    _notyf?.Error(ex.InnerException.Message);
                 }
             }
 
