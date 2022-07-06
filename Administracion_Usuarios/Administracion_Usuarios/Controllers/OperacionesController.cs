@@ -24,6 +24,7 @@ namespace Administracion_Usuarios.Controllers
         {
             List<Operacion> operaciones = await _context.Operaciones
                 .Include(m => m.Modulo)
+                .Include(m => m.RolesOperaciones)
                 .ToListAsync();
             return View(operaciones);
         }

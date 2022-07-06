@@ -2,7 +2,7 @@
 {
     public enum EstadoEnum
     {
-        Activo,
-        Inactivo
+        Inactivo,
+        Activo
     }
 }

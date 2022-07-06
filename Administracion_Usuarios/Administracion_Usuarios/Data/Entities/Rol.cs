@@ -17,7 +17,7 @@ namespace Administracion_Usuarios.Data.Entities
 
         [Display(Name = "Estado")]
         [Required(ErrorMessage = "El campo {0} es obligatorio.")]
-        public EstadoEnum EstadoEnum { get; set; }
+        public bool Estado { get; set; }
 
         //Tiene muchas 
         public ICollection<RolOperacion> RolesOperaciones { get; set; }

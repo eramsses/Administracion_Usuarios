@@ -1,19 +1,54 @@
 ﻿@model Administracion_Usuarios.Models.AgregarModificarRolViewModel
+<div class="col-md-4">
 
-<div class="form-group">
-    <label asp-for="Nombre" class="control-label"></label>
-    <input asp-for="Nombre" class="form-control" />
-    <span asp-validation-for="Nombre" class="text-danger"></span>
-</div>
-<div class="form-group">
-    <label asp-for="Descripcion" class="control-label"></label>
-    <textarea asp-for="Descripcion" class="form-control"></textarea>
-    <span asp-validation-for="Descripcion" class="text-danger"></span>
+    <input type="hidden" asp-for="Operaciones" />
+    
+    <div class="form-group">
+        <label asp-for="Nombre" class="control-label"></label>
+        <input asp-for="Nombre" class="form-control" />
+        <span asp-validation-for="Nombre" class="text-danger"></span>
+    </div>
+    <div class="form-group">
+        <label asp-for="Descripcion" class="control-label"></label>
+        <textarea asp-for="Descripcion" class="form-control"></textarea>
+        <span asp-validation-for="Descripcion" class="text-danger"></span>
+    </div>
 </div>
 
-<div>
-    @foreach (var item in Model.Operaciones)
+@{
+    string cat_anterior = "";
+    string mod_anterior = "";
+
+}
+<div class="row col-md-12 mt-3">
+    @for (int i = 0; i < Model.Operaciones.Count; i++)
+    {
+        @if (cat_anterior != Model.Operaciones[i].Modulo.ModuloCategoria.Nombre)
         {
-            <p>@item.Modulo.ModuloCategoria.Nombre -> @item.Modulo.Nombre -> @item.Nombre</p>
+
+            <div class="row mt-4">
+                <h4>@Model.Operaciones[i].Modulo.ModuloCategoria.Nombre | <em class="form-text">@Model.Operaciones[i].Modulo.ModuloCategoria.Descripcion</em></h4>
+            </div>
+            cat_anterior = Model.Operaciones[i].Modulo.ModuloCategoria.Nombre;
+
         }
+        @if (mod_anterior != Model.Operaciones[i].Modulo.Nombre)
+        {
+
+            <div class="row mt-2">
+                <h5>@Model.Operaciones[i].Modulo.Nombre | <em class="form-text">@Model.Operaciones[i].Modulo.Descripcion</em></h5>
+            </div>
+            mod_anterior = Model.Operaciones[i].Modulo.Nombre;
+
+        }
+
+        <div class="form-check col-md-4">
+            <input asp-for="@Model.Operaciones[i].Seleccionado" class="form-check-input" name="OperacionesSel[]" value="@Model.Operaciones[i].Id" />
+            <label class="form-check-label" asp-for="@Model.Operaciones[i].Seleccionado">
+                @Model.Operaciones[i].Nombre
+            </label>
+        </div>
+
+    }
+
 </div>

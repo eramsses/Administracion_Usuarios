@@ -7,7 +7,7 @@ using Microsoft.EntityFrameworkCore;
 
 namespace Administracion_Usuarios.Filters
 {
-    [AttributeUsage(AttributeTargets.Method, AllowMultiple = false)]
+    [AttributeUsage(AttributeTargets.Method, AllowMultiple = true)]
     public class Autorizacion : Attribute, IAuthorizationFilter
     {
         private readonly DataContext _context;

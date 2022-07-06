@@ -8,7 +8,7 @@
  */
 
 :root {
-    --bs-txt-header-color: #495057;
+    --bs-txt-header-color: #383a3c;
     --bs-txt-muted-color: #6c757d;
     --bs-blue: #065ee2;
     --bs-indigo: #6610f2;
@@ -67,7 +67,7 @@
     --bs-body-font-size: 1rem;
     --bs-body-font-weight: 400;
     --bs-body-line-height: 1.5;
-    --bs-body-color: #212529;
+    --bs-body-color: #545454;
     --bs-body-bg: #f0f0f0;
 }
 

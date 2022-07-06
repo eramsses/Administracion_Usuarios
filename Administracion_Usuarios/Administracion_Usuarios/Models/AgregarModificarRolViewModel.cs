@@ -6,6 +6,10 @@ namespace Administracion_Usuarios.Models
 {
     public class AgregarModificarRolViewModel
     {
+        public AgregarModificarRolViewModel()
+        {
+          
+        }
         public int Id { get; set; }
 
         [MaxLength(80, ErrorMessage = "El campo {0} debe tener máximo {1} caractéres")]
@@ -18,14 +22,12 @@ namespace Administracion_Usuarios.Models
 
         [Display(Name = "Estado")]
         [Required(ErrorMessage = "El campo {0} es obligatorio.")]
-        public EstadoEnum EstadoEnum { get; set; }
+        public bool Estado { get; set; }
 
-        public IEnumerable<Operacion> Operaciones { get; set; }
 
-        //Tiene muchas 
-        public ICollection<RolOperacion> RolesOperaciones { get; set; }
 
-        [Display(Name = "Operaciones")]
-        public int CantidadRolesOperaciones => RolesOperaciones == null ? 0 : RolesOperaciones.Count;
+        public List<OperacionesViewModel> Operaciones { get; set; }
+
+        
     }
 }

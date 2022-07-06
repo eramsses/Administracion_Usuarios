@@ -22,7 +22,7 @@
                 @Html.DisplayNameFor(model => model.CantidadRolesOperaciones)
             </th>
             <th>
-                @Html.DisplayNameFor(model => model.EstadoEnum)
+                @Html.DisplayNameFor(model => model.Estado)
             </th>
             <th></th>
         </tr>
@@ -30,6 +30,7 @@
     <tbody>
         @foreach (var item in Model)
         {
+            string estado = item.Estado ? "Activo" : "Inactivo";
             <tr>
                 <td>
                     @Html.DisplayFor(modelItem => item.Nombre)
@@ -41,7 +42,7 @@
                     @Html.DisplayFor(modelItem => item.CantidadRolesOperaciones)
                 </td>
                 <td>
-                    @Html.DisplayFor(modelItem => item.EstadoEnum)
+                    @estado
                 </td>
                 <td>
                     <a asp-action="Modificar" asp-route-id="@item.Id">Modificar</a> |

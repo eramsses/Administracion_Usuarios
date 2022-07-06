@@ -18,13 +18,13 @@ namespace Administracion_Usuarios.Controllers
             _context = context;
         }
 
+        
         public IActionResult Index()
         {
 
             return View();
         }
 
-        //[Autorizacion(new string[] { "categoria_modulo_consultar", "operaciones_eliminame" })]
         [Autorizacion("categoria_modulo_consultar, operaciones_eliminame")]
         public IActionResult Privacy()
         {
