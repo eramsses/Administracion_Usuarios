@@ -3,7 +3,7 @@ using System.ComponentModel.DataAnnotations;
 
 namespace Administracion_Usuarios.Data.Entities
 {
-    public class Rol
+    public class CustomRol
     {
         public int Id { get; set; }
 
@@ -24,6 +24,13 @@ namespace Administracion_Usuarios.Data.Entities
 
         [Display(Name = "Operaciones")]
         public int CantidadRolesOperaciones => RolesOperaciones == null ? 0 : RolesOperaciones.Count;
+
+        //Tiene muchos usuarios
+        public ICollection<Usuario> Usuarios { get; set; }
+
+        //Solo lectura
+        [Display(Name = "Usuarios")]
+        public int CantidadUsuarios => Usuarios == null ? 0 : Usuarios.Count;
 
     }
 }

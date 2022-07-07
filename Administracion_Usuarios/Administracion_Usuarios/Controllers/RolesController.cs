@@ -20,8 +20,9 @@ namespace Administracion_Usuarios.Controllers
 
         public async Task<IActionResult> Index()
         {
-            return View(await _context.Roles
+            return View(await _context.CustomRoles
                 .Include(r => r.RolesOperaciones)
+                .Include(r => r.Usuarios)
                 .ToListAsync());
         }
 
@@ -35,7 +36,7 @@ namespace Administracion_Usuarios.Controllers
 
 
             int idRolActual = 0;
-            List<Operacion> operacionesRolActual = _context.RolOperaciones.Where(ro => ro.RolId == idRolActual).Select(o => o.Operacion).ToList();
+            List<Operacion> operacionesRolActual = _context.RolOperaciones.Where(ro => ro.CustomRolId == idRolActual).Select(o => o.Operacion).ToList();
 
             List<Operacion> operaciones = await _context.Operaciones
                 .Include(m => m.Modulo)
@@ -69,12 +70,27 @@ namespace Administracion_Usuarios.Controllers
         [ValidateAntiForgeryToken]
         public async Task<IActionResult> Agregar(string[] OperacionesSel, AgregarModificarRolViewModel model)
         {
+            //Recuperar objetos para que en caso de error devolverlos a la vista
+            //Todas las operaciones disponibles
             List<Operacion> operaciones = await _context.Operaciones
                 .Include(m => m.Modulo)
                 .ThenInclude(c => c.ModuloCategoria)
                 .OrderBy(o => o.Modulo.ModuloCategoria.Nombre).ThenBy(o => o.Modulo.Nombre).ThenBy(o => o.Nombre)
                 .ToListAsync();
 
+            //Convertir las operaciones (Ids) seleccionadas en la vista a una 
+            //lista de RolOperacion
+            List<RolOperacion> opSel = new List<RolOperacion>();
+            for (int i = 0; i < OperacionesSel.Count(); i++)
+            {
+                int idOpSel = Int32.Parse(OperacionesSel[i]);
+                opSel.Add(new RolOperacion()
+                {
+                    Operacion = _context.Operaciones.FirstOrDefault(o => o.Id == idOpSel)
+                });
+            }
+
+            //Agregar todas las Operaciones al modelo y marcar como seleccionadas las elegidas
             foreach (var operacion in operaciones)
             {
                 OperacionesViewModel opVM = new OperacionesViewModel
@@ -84,11 +100,20 @@ namespace Administracion_Usuarios.Controllers
                     NombreClave = operacion.NombreClave,
                     Descripcion = operacion.Descripcion,
                     Modulo = operacion.Modulo,
-                    Seleccionado = true
-
                 };
-
+                //Marcar en true las operaciones seleccionadas
+                if (opSel.Any(o => o.Operacion.Id == operacion.Id))
+                {
+                    opVM.Seleccionado = true;
+                }
                 model.Operaciones.Add(opVM);
+            }
+
+            //Error en caso de seleccionar ninguna operación
+            if (OperacionesSel.Count() == 0)
+            {
+                _notyf.Error("Debe seleccionar al menos una operación para crear el rol.");
+                return View(model);
             }
 
             if (OperacionesSel.Count() == 0)
@@ -99,23 +124,11 @@ namespace Administracion_Usuarios.Controllers
 
             if (ModelState.IsValid)
             {
-
-                List<RolOperacion> opSel = new List<RolOperacion>();
-                for (int i = 0; i < OperacionesSel.Count(); i++)
-                {
-                    int idOpSel = Int32.Parse(OperacionesSel[i]);
-                    opSel.Add(new RolOperacion()
-                    {
-                        Operacion = _context.Operaciones.FirstOrDefault(o => o.Id == idOpSel)
-                    });
-                }
-
-
                 string nombre = model.Nombre;
 
                 try
                 {
-                    Rol rol = new()
+                    CustomRol rol = new()
                     {
                         Nombre = model.Nombre,
                         Descripcion = model.Descripcion,
@@ -154,7 +167,7 @@ namespace Administracion_Usuarios.Controllers
         public async Task<IActionResult> Modificar(int id)
         {
             //Recuperar la info del rol
-            Rol r = _context.Roles.FirstOrDefault(r => r.Id == id);
+            CustomRol r = _context.CustomRoles.FirstOrDefault(r => r.Id == id);
             AgregarModificarRolViewModel rol = new()
             {
                 Nombre = r.Nombre,
@@ -165,7 +178,7 @@ namespace Administracion_Usuarios.Controllers
 
 
             int idRolActual = id;
-            List<Operacion> operacionesRolActual = _context.RolOperaciones.Where(ro => ro.RolId == idRolActual).Select(o => o.Operacion).ToList();
+            List<Operacion> operacionesRolActual = _context.RolOperaciones.Where(ro => ro.CustomRolId == idRolActual).Select(o => o.Operacion).ToList();
 
             List<Operacion> operaciones = await _context.Operaciones
                 .Include(m => m.Modulo)
@@ -247,7 +260,7 @@ namespace Administracion_Usuarios.Controllers
             if (ModelState.IsValid)
             {
                 //Rercuperar el rol actualizar
-                Rol rolActualizar = await _context.Roles
+                CustomRol rolActualizar = await _context.CustomRoles
                     .Include(r => r.RolesOperaciones)
                     .FirstOrDefaultAsync(r => r.Id == id);
 
@@ -315,31 +328,31 @@ namespace Administracion_Usuarios.Controllers
         [ValidateAntiForgeryToken]
         public async Task<IActionResult> Eliminar(int id)
         {
-            Modulo modulo = await _context.Modulos
-                .Include(op => op.Operaciones)
+            CustomRol rol = await _context.CustomRoles
+                .Include(op => op.Usuarios)
                 .FirstOrDefaultAsync(m => m.Id == id);
 
             try
             {
-                if (modulo.CantidadOperaciones > 0)
+                if (rol.CantidadUsuarios > 0)
                 {
-                    _notyf.Error($"El módulo <b>{modulo.Nombre}</b> no puede ser eliminado porque tiene operaciones asociadas.");
+                    _notyf.Error($"El rol <b>{rol.Nombre}</b> no puede ser eliminado porque tiene usuarios asociados.");
                     return RedirectToAction(nameof(Index));
                 }
 
-                if (modulo != null)
+                if (rol != null)
                 {
-                    _context.Modulos.Remove(modulo);
+                    _context.CustomRoles.Remove(rol);
                 }
 
                 await _context.SaveChangesAsync();
 
-                _notyf.Success($"El módulo <b>{modulo.Nombre}</b> fue eliminado exitosamente.", 3);
+                _notyf.Success($"El rol <b>{rol.Nombre}</b> fue eliminado exitosamente.", 6);
                 return RedirectToAction(nameof(Index));
             }
             catch (Exception ex)
             {
-                _notyf.Error($"Ocurrió un error al intentar eliminar el módulo <b>{modulo.Nombre}</b>: {ex.InnerException.Message}.", 3);
+                _notyf.Error($"Ocurrió un error al intentar eliminar el rol <b>{rol.Nombre}</b>: {ex.InnerException.Message.Replace("'", "\\'")}.");
                 return RedirectToAction(nameof(Index));
             }
 

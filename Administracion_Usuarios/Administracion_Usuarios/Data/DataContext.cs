@@ -1,9 +1,10 @@
 ﻿using Administracion_Usuarios.Data.Entities;
+using Microsoft.AspNetCore.Identity.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore;
 
 namespace Administracion_Usuarios.Data
 {
-    public class DataContext: DbContext
+    public class DataContext: IdentityDbContext
     {
         public DataContext(DbContextOptions<DataContext> options) : base(options)
         {
@@ -16,9 +17,11 @@ namespace Administracion_Usuarios.Data
 
         public DbSet<Operacion> Operaciones { get; set; }
 
-        public DbSet<Rol> Roles { get; set; }
+        public DbSet<CustomRol> CustomRoles { get; set; }
 
         public DbSet<RolOperacion> RolOperaciones { get; set; }
+
+        public DbSet<Usuario> Usuarios { get; set; }
 
         protected override void OnModelCreating(ModelBuilder modelBuilder)
         {
@@ -36,7 +39,7 @@ namespace Administracion_Usuarios.Data
             //modelBuilder.Entity<Operacion>().HasIndex("Nombre", "ModuloId").IsUnique();
 
             //Llave compuesta para definir la llave en tabla intermedia de relación muchos a muchos
-            modelBuilder.Entity<RolOperacion>().HasKey(ro => new { ro.RolId, ro.OperacionId });
+            modelBuilder.Entity<RolOperacion>().HasKey(ro => new { ro.CustomRolId, ro.OperacionId });
             
         }
 

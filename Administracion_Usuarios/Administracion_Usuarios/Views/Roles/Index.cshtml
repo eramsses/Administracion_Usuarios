@@ -1,4 +1,4 @@
-﻿@model IEnumerable<Administracion_Usuarios.Data.Entities.Rol>
+﻿@model IEnumerable<Administracion_Usuarios.Data.Entities.CustomRol>
 
 @{
     ViewData["Title"] = "Roles";
@@ -22,6 +22,9 @@
                 @Html.DisplayNameFor(model => model.CantidadRolesOperaciones)
             </th>
             <th>
+                @Html.DisplayNameFor(model => model.CantidadUsuarios)
+            </th>
+            <th>
                 @Html.DisplayNameFor(model => model.Estado)
             </th>
             <th></th>
@@ -42,6 +45,9 @@
                     @Html.DisplayFor(modelItem => item.CantidadRolesOperaciones)
                 </td>
                 <td>
+                    @Html.DisplayFor(modelItem => item.CantidadUsuarios)
+                </td>
+                <td>
                     @estado
                 </td>
                 <td>
@@ -59,15 +65,14 @@
 
         <div class="modal-content">
             <div class="modal-header bg-warning text-white">
-                <h5 class="modal-title" id="camb_estado">Eliminar Operación</h5>
+                <h5 class="modal-title" id="camb_estado">Eliminar Rol</h5>
                 <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
             </div>
             <form asp-action="Eliminar" method="post" enctype="multipart/form-data">
                 <div class="modal-body">
-                    <input type="hidden" id="id_operacion" name="Id">
+                    <input type="hidden" id="id_custom_rol" name="Id">
                     <p>
-                        Confirme que desea eliminar la operación <b>"<span id="p_nombre"></span>"</b>
-                        con el nombre clave <b>"<span id="p_nombre_clave"></span>"</b>
+                        Confirme que desea eliminar el rol <b>"<span id="p_nombre"></span>"</b>
                     </p>
                 </div>
                 <div class="modal-footer">
@@ -86,7 +91,7 @@
         <script>
 
             function eliminar(id, nombre) {
-                $('#id_operacion').val(id);
+                $('#id_custom_rol').val(id);
                 $('#p_nombre').html(nombre);
                 var mod_eliminar = new bootstrap.Modal(document.getElementById('mod_eliminar'), {
                     keyboard: false
@@ -95,7 +100,6 @@
                 mod_eliminar.show();
 
             }
-
 
         </script>
     }

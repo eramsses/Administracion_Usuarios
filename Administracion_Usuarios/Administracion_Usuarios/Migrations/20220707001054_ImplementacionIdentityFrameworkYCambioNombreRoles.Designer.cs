@@ -4,6 +4,7 @@ using Administracion_Usuarios.Data;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
 using Microsoft.EntityFrameworkCore.Metadata;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 
 #nullable disable
@@ -11,9 +12,10 @@ using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 namespace Administracion_Usuarios.Migrations
 {
     [DbContext(typeof(DataContext))]
-    partial class DataContextModelSnapshot : ModelSnapshot
+    [Migration("20220707001054_ImplementacionIdentityFrameworkYCambioNombreRoles")]
+    partial class ImplementacionIdentityFrameworkYCambioNombreRoles
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder
@@ -359,27 +361,6 @@ namespace Administracion_Usuarios.Migrations
                 {
                     b.HasBaseType("Microsoft.AspNetCore.Identity.IdentityUser");
 
-                    b.Property<string>("Apellidos")
-                        .IsRequired()
-                        .HasMaxLength(80)
-                        .HasColumnType("nvarchar(80)");
-
-                    b.Property<int?>("CustomRolId")
-                        .HasColumnType("int");
-
-                    b.Property<bool>("Estado")
-                        .HasColumnType("bit");
-
-                    b.Property<Guid>("ImagenId")
-                        .HasColumnType("uniqueidentifier");
-
-                    b.Property<string>("Nombres")
-                        .IsRequired()
-                        .HasMaxLength(80)
-                        .HasColumnType("nvarchar(80)");
-
-                    b.HasIndex("CustomRolId");
-
                     b.HasDiscriminator().HasValue("Usuario");
                 });
 
@@ -471,20 +452,9 @@ namespace Administracion_Usuarios.Migrations
                         .IsRequired();
                 });
 
-            modelBuilder.Entity("Administracion_Usuarios.Data.Entities.Usuario", b =>
-                {
-                    b.HasOne("Administracion_Usuarios.Data.Entities.CustomRol", "CustomRol")
-                        .WithMany("Usuarios")
-                        .HasForeignKey("CustomRolId");
-
-                    b.Navigation("CustomRol");
-                });
-
             modelBuilder.Entity("Administracion_Usuarios.Data.Entities.CustomRol", b =>
                 {
                     b.Navigation("RolesOperaciones");
-
-                    b.Navigation("Usuarios");
                 });
 
             modelBuilder.Entity("Administracion_Usuarios.Data.Entities.Modulo", b =>
